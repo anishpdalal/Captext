@@ -15,6 +15,7 @@ TEXT = """ Bacon ipsum dolor amet t-bone pastrami chicken, sirloin bacon corned 
 
 
 class TestEntryModel(BaseTestCase):
+    """ Tests that an Entry gets created successfully"""
 
     def test_create_entry(self):
         user = User(
@@ -29,7 +30,7 @@ class TestEntryModel(BaseTestCase):
                       text=TEXT,
                       created_on=pub_date,
                       keywords="yankees, sports, baseball",
-                      url="https://www.example.com",
+                      url="https://www.yankees.com",
                       title="The Yankees Win")
         db.session.add(entry)
         db.session.commit()
@@ -37,11 +38,12 @@ class TestEntryModel(BaseTestCase):
         assert stored_entry.text == TEXT
         assert stored_entry.created_on == pub_date
         assert stored_entry.keywords == "yankees, sports, baseball"
-        assert stored_entry.url == "https://www.example.com"
+        assert stored_entry.url == "https://www.yankees.com"
         assert stored_entry.title == "The Yankees Win"
 
 
     def test_no_pub_date_provided(self):
+        """ Tests Entry creation when no publication date is provided"""
         user = User(
                 email='test@test.com',
                 password='test'
@@ -51,7 +53,7 @@ class TestEntryModel(BaseTestCase):
         entry = Entry(user_id=user.id,
                       text=TEXT,
                       keywords="yankees, sports, baseball",
-                      url="https://www.example.com",
+                      url="https://www.yankees.com",
                       title="The Yankees Win")
         db.session.add(entry)
         db.session.commit()

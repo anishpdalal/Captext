@@ -20,6 +20,7 @@ def register_user(self, email, password):
         content_type='application/json',
     )
 
+
 def login_user(self, email, password):
     return self.client.post(
         '/auth/login',
