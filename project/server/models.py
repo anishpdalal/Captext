@@ -16,6 +16,7 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
     registered_on = db.Column(db.DateTime, nullable=False)
     admin = db.Column(db.Boolean, nullable=False, default=False)
+    entries = db.relationship('Entry', backref='user', lazy='dynamic')
 
     def __init__(self, email, password, admin=False):
         self.email = email
@@ -89,3 +90,26 @@ class BlacklistToken(db.Model):
             return True
         else:
             return False
+
+
+class Entry(db.Model):
+    """
+    Entry model for storing selected user text
+    """
+    __tablename__ = 'entries'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    text = db.Column(db.Text, nullable=False)
+    created_on = db.Column(db.DateTime, nullable=False)
+    keywords = db.Column(db.String(500), nullable=True)
+    url = db.Column(db.String(500), nullable=False)
+    title = db.Column(db.String(500), nullable=False)
+
+    def __init__(self, user_id, text, url, title, created_on=None, keywords=None):
+        self.user_id = user_id
+        self.text = text
+        self.url = url
+        self.title = title
+        self.created_on = datetime.datetime.now() if not created_on else created_on
+        self.keywords = keywords
