@@ -145,7 +145,8 @@ class TestEntryBlueprint(BaseTestCase):
             self.assertEqual(data['title'], "The Yankees Win")
             self.assertEqual(data['url'], "https://www.yankees.com")
             self.assertTrue(data['user_id'] is not None)
-            self.assertTrue(data['recommendation'], "https://www.espn.com")
+            self.assertTrue(data['recommendation_url'], "https://www.espn.com")
+            self.assertTrue(data['recommendation_title'], "Yankees Sweep")
 
 
 if __name__ == '__main__':
