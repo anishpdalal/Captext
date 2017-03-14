@@ -41,7 +41,6 @@ class TestEntryModel(BaseTestCase):
         assert stored_entry.url == "https://www.yankees.com"
         assert stored_entry.title == "The Yankees Win"
 
-
     def test_no_pub_date_provided(self):
         """ Tests Entry creation when no publication date is provided"""
         user = User(

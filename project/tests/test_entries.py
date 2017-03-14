@@ -55,6 +55,8 @@ class TestEntryBlueprint(BaseTestCase):
             self.assertEqual(data['keywords'], "yankees, sports, baseball")
             self.assertEqual(data['title'], "The Yankees Win")
             self.assertTrue(data['user_id'] is not None)
+            self.assertTrue(data['created_on'] is not None)
+            self.assertEqual(isinstance(data['created_on'], unicode), True)
             entry = Entry.query.filter_by(title=data.get('title')).first()
             self.assertTrue(entry is not None)
 

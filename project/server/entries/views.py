@@ -37,10 +37,11 @@ class CreateEntryAPI(MethodView):
                         db.session.commit()
                         response_object = {
                             'user_id': user.id,
-                            'text': post_data.get('text'),
-                            'keywords': post_data.get('keywords', None),
-                            'url': post_data.get('url'),
-                            'title': post_data.get('title'),
+                            'text': entry.text,
+                            'keywords': entry.keywords,
+                            'url': entry.url,
+                            'title': entry.title,
+                            'created_on': entry.created_on.strftime('%m/%d/%Y'),
                             'status': 'success',
                             'message': 'created new entry'
                             }
