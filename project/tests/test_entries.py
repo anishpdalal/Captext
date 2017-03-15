@@ -7,6 +7,7 @@ import datetime
 
 from project.tests.base import BaseTestCase
 from project.server.models import Entry
+from helpers import create_test_entries
 
 TEXT = """ Bacon ipsum dolor amet t-bone pastrami chicken, sirloin bacon corned beef beef ribs jerky burgdoggen
     picanha. Drumstick leberkas chicken ball tip pork belly shoulder salami doner tongue rump corned beef beef ribs
@@ -122,10 +123,10 @@ class TestEntryBlueprint(BaseTestCase):
             self.assertEqual(data['message'], 'Please provide url, title, and text')
             self.assertEqual(response.status_code, 200)
 
-    def test_get_random_entry(self):
+    def test_get_entries(self):
         with self.client:
             resp_register = register_user(self, 'joe@gmail.com', '123456')
-
+            create_test_entries()
             response = self.client.get(
                     '/entries',
                     headers=dict(
@@ -135,18 +136,18 @@ class TestEntryBlueprint(BaseTestCase):
                     )
             )
             data = json.loads(response.data.decode())
+            self.assertEqual(response.status_code, 200)
             self.assertEqual(data['status'], 'success')
-            self.assertEqual(data['message'], 'retrieved an entry')
-            self.assertEqual(isinstance(data['created_on'], unicode), True)
+            self.assertEqual(data['message'], 'retrieved entries')
+            self.assertEqual(len(data['results']), 2)
+            self.assertEqual(isinstance(data['results'][0]['created_on'], unicode), True)
             self.assertTrue(
-                (datetime.datetime.strptime(data['created_on'], '%m/%d/%Y') - datetime.datetime.now()).days <= 7, True)
-            self.assertEqual(data['text'], TEXT)
-            self.assertEqual(len(data['category'].split(",")), 1)
-            self.assertEqual(data['title'], "The Yankees Win")
-            self.assertEqual(data['url'], "https://www.yankees.com")
-            self.assertTrue(data['user_id'] is not None)
-            self.assertTrue(data['recommendation_url'], "https://www.espn.com")
-            self.assertTrue(data['recommendation_title'], "Yankees Sweep")
+                datetime.datetime.strptime(data['results'][0]['created_on'], '%m/%d/%Y') >= datetime.datetime.strptime(
+                        data['results'][1]['created_on'], '%m/%d/%Y'))
+            self.assertTrue(len(data['results'][0]['categories']), 3)
+            self.assertTrue(data['results'][0]['user_id'] == data['results'][1]['user_id'])
+            self.assertEqual(data['results'][0]['recommendation'], None)
+            self.assertEqual(data['results'][1]['recommendation'], None)
 
 
 if __name__ == '__main__':
