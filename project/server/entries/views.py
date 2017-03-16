@@ -110,15 +110,6 @@ class ListCreateEntryAPI(MethodView):
             }
             return make_response(jsonify(response_object)), 403
 
-    def get_recommendation(self, entry):
-        recommendations = Entry.query.filter_by(url=entry.url).filter(Entry.user_id != entry.user_id).all()
-        if recommendations:
-            random_index = randrange(0, len(recommendations))
-            recommendation = recommendations[random_index]
-            return dict(url=recommendation.url, title=recommendation.title)
-        else:
-            return None
-
     def to_dict(self, entry):
         return dict(user_id=entry.user_id,
                     id=entry.id,
@@ -126,8 +117,7 @@ class ListCreateEntryAPI(MethodView):
                     created_on=entry.created_on.strftime('%m/%d/%Y'),
                     categories=entry.keywords.split(", "),
                     url=entry.url,
-                    title=entry.title,
-                    recommendation=self.get_recommendation(entry))
+                    title=entry.title)
 
 
 list_create_entry_view = ListCreateEntryAPI.as_view('create_entry_api')

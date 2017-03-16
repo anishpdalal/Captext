@@ -146,8 +146,6 @@ class TestEntryBlueprint(BaseTestCase):
                         data['results'][1]['created_on'], '%m/%d/%Y'))
             self.assertTrue(len(data['results'][0]['categories']), 3)
             self.assertTrue(data['results'][0]['user_id'] == data['results'][1]['user_id'])
-            self.assertEqual(data['results'][0]['recommendation'], None)
-            self.assertEqual(data['results'][1]['recommendation'], None)
 
 
 if __name__ == '__main__':
