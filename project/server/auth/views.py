@@ -23,6 +23,7 @@ class RegisterAPI(MethodView):
         if not user:
             try:
                 user = User(
+                    name=post_data.get('name'),
                     email=post_data.get('email'),
                     password=post_data.get('password')
                 )
@@ -108,6 +109,7 @@ class UserAPI(MethodView):
                     'status': 'success',
                     'data': {
                         'user_id': user.id,
+                        'name': user.name,
                         'email': user.email,
                         'admin': user.admin,
                         'registered_on': user.registered_on

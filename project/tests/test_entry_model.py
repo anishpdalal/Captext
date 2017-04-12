@@ -19,6 +19,7 @@ class TestEntryModel(BaseTestCase):
 
     def test_create_entry(self):
         user = User(
+                name='Billy Bob',
                 email='test@test.com',
                 password='test'
         )
@@ -44,6 +45,7 @@ class TestEntryModel(BaseTestCase):
     def test_no_pub_date_provided(self):
         """ Tests Entry creation when no publication date is provided"""
         user = User(
+                name='Billy Bob',
                 email='test@test.com',
                 password='test'
         )

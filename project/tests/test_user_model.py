@@ -13,6 +13,7 @@ class TestUserModel(BaseTestCase):
 
     def test_encode_auth_token(self):
         user = User(
+            name='Billy Bob',
             email='test@test.com',
             password='test'
         )
@@ -23,6 +24,7 @@ class TestUserModel(BaseTestCase):
 
     def test_decode_auth_token(self):
         user = User(
+            name='Billy Bob',
             email='test@test.com',
             password='test'
         )

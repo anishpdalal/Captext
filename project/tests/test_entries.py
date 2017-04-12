@@ -16,10 +16,11 @@ TEXT = """ Bacon ipsum dolor amet t-bone pastrami chicken, sirloin bacon corned 
     flank porchetta kielbasa."""
 
 
-def register_user(self, email, password):
+def register_user(self, name, email, password):
     return self.client.post(
             '/auth/register',
             data=json.dumps(dict(
+                    name=name,
                     email=email,
                     password=password
             )),
@@ -32,7 +33,7 @@ class TestEntryBlueprint(BaseTestCase):
 
     def test_entry_creation(self):
         with self.client:
-            resp_register = register_user(self, 'joe@gmail.com', '123456')
+            resp_register = register_user(self, 'Billy Bob', 'joe@gmail.com', '123456')
             response = self.client.post(
                     '/entries',
                     headers=dict(
@@ -64,7 +65,6 @@ class TestEntryBlueprint(BaseTestCase):
 
     def test_create_entry_with_no_auth_header(self):
         with self.client:
-            resp_register = register_user(self, 'joe@gmail.com', '123456')
             response = self.client.post(
                     '/entries',
                     data=json.dumps(dict(
@@ -82,7 +82,6 @@ class TestEntryBlueprint(BaseTestCase):
 
     def test_create_entry_with_empty_auth_token(self):
         with self.client:
-            resp_register = register_user(self, 'joe@gmail.com', '123456')
             response = self.client.post(
                     '/entries',
                     headers=dict(
@@ -103,7 +102,7 @@ class TestEntryBlueprint(BaseTestCase):
 
     def test_create_entry_without_url(self):
         with self.client:
-            resp_register = register_user(self, 'joe@gmail.com', '123456')
+            resp_register = register_user(self, 'Billy Bob', 'joe@gmail.com', '123456')
             response = self.client.post(
                     '/entries',
                     headers=dict(
@@ -125,7 +124,7 @@ class TestEntryBlueprint(BaseTestCase):
 
     def test_get_entries(self):
         with self.client:
-            resp_register = register_user(self, 'joe@gmail.com', '123456')
+            resp_register = register_user(self, 'Billy Bob', 'joe@gmail.com', '123456')
             create_test_entries()
             response = self.client.get(
                     '/entries',
