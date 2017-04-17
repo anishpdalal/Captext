@@ -34,7 +34,7 @@ class TestingConfig(BaseConfig):
 
 class ProductionConfig(BaseConfig):
     """Production configuration."""
-    SECRET_KEY = 'B9656DD7CBDDC6E2848E966A6C75B'
+    SECRET_KEY = os.getenv('SECRET_KEY', 'my_precious')
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', None)
     TOKEN_EXPIRATION = (2, 0, 0)
