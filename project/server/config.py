@@ -28,10 +28,13 @@ class TestingConfig(BaseConfig):
     BCRYPT_LOG_ROUNDS = 4
     SQLALCHEMY_DATABASE_URI = postgres_local_base + database_name + '_test'
     PRESERVE_CONTEXT_ON_EXCEPTION = False
+    # time till JWT token will expire => (days, hours, seconds)
+    TOKEN_EXPIRATION = (0, 0, 5)
 
 
 class ProductionConfig(BaseConfig):
     """Production configuration."""
-    SECRET_KEY = 'my_precious'
+    SECRET_KEY = 'B9656DD7CBDDC6E2848E966A6C75B'
     DEBUG = False
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', None)
+    TOKEN_EXPIRATION = (2, 0, 0)

@@ -34,8 +34,9 @@ class User(db.Model):
         :return: string
         """
         try:
+            days, hours, seconds = app.config.get('TOKEN_EXPIRATION')
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, hours=2),
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=days, hours=hours, seconds=seconds),
                 'iat': datetime.datetime.utcnow(),
                 'sub': user_id
             }
